@@ -545,15 +545,26 @@ function App() {
           cleanContent = cleanContent.slice(1, -1).trim();
         }
 
-        // 1. Try exact/include match
-        foundIndex = sentences.findIndex(t => t.en.trim().includes(cleanContent) || cleanContent.includes(t.en.trim()));
+        // 1. Try exact/include match (Case-insensitive)
+        const lowerContent = cleanContent.toLowerCase();
+        foundIndex = sentences.findIndex(t => {
+          const lowerSentence = t.en.toLowerCase();
+          return lowerSentence.includes(lowerContent) || lowerContent.includes(lowerSentence);
+        });
 
-        // 2. Robust match for abbreviated text
-        if (foundIndex === -1 && (cleanContent.includes('...') || cleanContent.includes('…'))) {
-          const chunks = cleanContent.split(/\.{3}|…/).map(c => c.trim()).filter(c => c.length > 5);
-          for (const chunk of chunks) {
-            foundIndex = sentences.findIndex(t => t.en.includes(chunk));
-            if (foundIndex !== -1) break;
+        // 2. Robust match for abbreviated or fragmented text
+        if (foundIndex === -1) {
+          // Splitting by dots/ellipses or just significant gaps
+          const chunks = cleanContent.split(/\.{2,}|…/)
+            .map(c => c.trim())
+            .filter(c => c.length > 3); // Minimum chunk length to avoid false positives
+
+          if (chunks.length > 0) {
+            for (const chunk of chunks) {
+              const lowerChunk = chunk.toLowerCase();
+              foundIndex = sentences.findIndex(t => t.en.toLowerCase().includes(lowerChunk));
+              if (foundIndex !== -1) break;
+            }
           }
         }
       } else if (type === 'header') {

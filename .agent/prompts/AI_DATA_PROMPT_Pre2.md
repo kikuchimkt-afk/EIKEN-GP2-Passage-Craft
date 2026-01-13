@@ -114,14 +114,60 @@ Output ONLY the code blocks below. **Do not include any conversational filler.**
 
 ---
 講師用資料：授業前の確認や、生徒への解説の構成案としてご活用ください。`,
-      comparison: `## 過去問との比較分析 (Category Comparison)
+      comparison: `
+<h3 class="comparison-section-header">過去問との比較分析 (Category Comparison)</h3>
 
-| 項目 | [Past Title] (過去問) | [Original Title] (オリジナル) |
-| :--- | :--- | :--- |
-| **テーマ** | ... | ... |
-| **構造** | 1. ...<br>2. ...<br>3. ...<br>4. ... | 1. ...<br>2. ...<br>3. ...<br>4. ... |
-| **共通点** | ・...<br>・... | (左記に同じ) 構造と論理展開を完全に模倣 |
-| **相違点** | [Specific details unique to Past] | [Specific details unique to Original] |
+<div style="overflow-x: auto;">
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>[Past Title] (過去問)</th>
+        <th>[Original Title] (オリジナル)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="font-bold">テーマ</td>
+        <td>...</td>
+        <td>...</td>
+      </tr>
+      <tr>
+        <td class="font-bold">構造</td>
+        <td>
+          1. ...<br>
+          2. ...<br>
+          3. ...<br>
+          4. ...
+        </td>
+        <td>
+          1. ...<br>
+          2. ...<br>
+          3. ...<br>
+          4. ...
+        </td>
+      </tr>
+      <tr>
+        <td class="font-bold">共通点</td>
+        <td colspan="2">
+          ・...<br>
+          ・...
+        </td>
+      </tr>
+      <tr>
+        <td class="font-bold">相違点</td>
+        <td>
+          第3段落：...<br>
+          第4段落：...
+        </td>
+        <td>
+          第3段落：...<br>
+          第4段落：...
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <h3 class="comparison-section-header">1. トピックと展開の相違 (Topic Differences)</h3>
 
@@ -129,14 +175,12 @@ Output ONLY the code blocks below. **Do not include any conversational filler.**
   <li>
     <strong>[Past Title] (過去問):</strong>
     <ul>
-      <li><strong>Topic:</strong> [Topic explanation]</li>
       <li><strong>Focus:</strong> [Focus explanation]</li>
     </ul>
   </li>
   <li style="margin-top: 1rem;">
     <strong>[Original Title] (オリジナル):</strong>
     <ul>
-      <li><strong>Topic:</strong> [Topic explanation]</li>
       <li><strong>Focus:</strong> [Focus explanation]</li>
     </ul>
   </li>
@@ -174,6 +218,8 @@ Output ONLY the code blocks below. **Do not include any conversational filler.**
     </ul>
   </li>
 </ul>`,
+
+
       syntax: `## 4. 正解の根拠となるセンテンスの構文解析
 <div style="font-size: 1.5rem; font-weight: bold; color: #1e293b; margin-bottom: 0.5rem;">[Past Exam Title] (過去問)</div>
 
@@ -224,6 +270,15 @@ Output ONLY the code blocks below. **Do not include any conversational filler.**
   - **Evidence:** **BOLD** only the main verb(s) using `<strong>` (e.g., `it <strong>is</strong> used`).
   - **Structure:** **BOLD** the labels (e.g., `<strong>動詞 (V):</strong>`) but NOT the content value.
 - **Summary Styling:**
-  - For `summary` titles, use: `<div style="font-size: 1.2rem; font-weight: bold; margin-top: 1.5rem; color: black;">[Title] (Category)</div>`
+  - You **MUST** generate `summary` content for **BOTH** texts: `[Past Title] (過去問)` AND `[Original Title] (オリジナル)`.
+  - Use specific headers for summaries: `<h3 class="summary-section-header">1. Introduction (第1段落)</h3>`
+  - For title separators, use: `<div style="font-size: 1.2rem; font-weight: bold; margin-top: 1.5rem; color: black;">[Title] (Category)</div>`
+- **Comparison Styling:**
+  - You **MUST** use the `<table class="comparison-table">` structure for the main comparison.
+  - You **MUST** include two additional sections below the table:
+    1. `<h3 class="comparison-section-header">1. トピックと展開の相違 (Topic Differences)</h3>` with a `<ul>` list.
+    2. `<h3 class="comparison-section-header">2. 設問設計の比較 (Question Design)</h3>` with a `<ul>` list detailing Q26-Q29 (or Q34-Q37) contrasts.
+  - Use `<td class="font-bold">` for the first column (Theme, Structure, etc.).
+  - Use `<h3 class="comparison-section-header">` for the main title.
 - **Dual Analysis:**
   - Generate full analysis for **BOTH** Past and Original passages.
